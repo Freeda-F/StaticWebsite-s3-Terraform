@@ -64,7 +64,7 @@ resource "aws_s3_bucket" "bucket" {
 ```
 resource "null_resource" "remove_and_upload_to_s3" {
   provisioner "local-exec" {
-    command = "aws s3 sync ${path.module}/website s3://${aws_s3_bucket.bucket.id}"
+    command = "aws s3 sync ${path.module}/${var.location} s3://${aws_s3_bucket.bucket.id}"
   }
 }
 ```
@@ -75,7 +75,7 @@ resource "null_resource" "remove_and_upload_to_s3" {
 module "template_files" {
   source = "hashicorp/dir/template"
 
-  base_dir = "${var.websiteFiles}" 
+  base_dir = "${var.location}" 
 }
 
 resource "aws_s3_bucket_object" "file_upload" {
